@@ -1,6 +1,5 @@
 package com.meserodigital.application.service;
 
-import com.meserodigital.application.dto.ProductoDTO;
 import com.meserodigital.domain.model.Producto;
 import com.meserodigital.domain.repository.ProductoRepository;
 import com.meserodigital.domain.service.ProductoService;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
