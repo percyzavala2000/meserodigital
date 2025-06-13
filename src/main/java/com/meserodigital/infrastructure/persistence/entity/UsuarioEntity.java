@@ -14,7 +14,8 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    @Column(nullable = false, unique = true)
+private String nombre;
 
     private String contrasena;
 

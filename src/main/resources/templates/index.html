@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/plantilla :: head}"></head>
+
+
+<title>Inicio</title>
+</head>
+
+<body class="d-flex">
+  <aside th:replace="~{layout/plantilla :: aside}" ></aside>
+  <!-- Contenido principal -->
+  <div class="contenido flex-grow-1 p-4 bg-light">
+  <section th:replace="~{layout/botonAgregar :: botonAgregar}"></section>
+  <section th:replace="~{layout/listadoMenu :: listadoMenu}"></section>
+  </div>
+
+
+</body>
+
+</html>

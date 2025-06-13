@@ -10,6 +10,17 @@ public class Pedido {
     private Cliente cliente;
     private List<DetallePedido> detalles;
 
+    public Pedido(Long id, LocalDateTime fecha, Estado estado, Cliente cliente, List<DetallePedido> detalles) {
+      this.id = id;
+      this.fecha = fecha;
+      this.estado = estado;
+      this.cliente = cliente;
+      this.detalles = detalles;
+    }
+
+    public Pedido() {
+    }
+
     public enum Estado {
         PENDIENTE,
         EN_PREPARACION,

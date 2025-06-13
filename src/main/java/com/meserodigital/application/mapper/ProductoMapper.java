@@ -1,11 +1,13 @@
 package com.meserodigital.application.mapper;
 
 import com.meserodigital.application.dto.ProductoDTO;
+import com.meserodigital.domain.model.Categoria;
 import com.meserodigital.domain.model.Producto;
+import com.meserodigital.domain.service.CategoriaService;
 
 public class ProductoMapper {
 
-    public static ProductoDTO toDTO(Producto p) {
+    public static ProductoDTO toDTO(Producto p, CategoriaService categoriaService) {
         ProductoDTO dto = new ProductoDTO();
         dto.setId(p.getId());
         dto.setNombre(p.getNombre());
@@ -14,7 +16,11 @@ public class ProductoMapper {
         dto.setStock(p.getStock());
         dto.setImagen(p.getImagen());
         dto.setEstado(p.getEstado().name());
-        dto.setIdCategoria(p.getCategoria() != null ? p.getCategoria().getId() : null);
+        /* dto.setIdCategoria(p.getCategoria() != null ? p.getCategoria().getId() : null); */
+       if (dto.getIdCategoria() != null) {
+        Categoria categoria = categoriaService.getCategoriaById(dto.getIdCategoria());
+        p.setCategoria(categoria);
+    }
         return dto;
     }
 

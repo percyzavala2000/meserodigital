@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/spring-security6">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <section th:fragment="botonAgregar" class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Menú</h1>
+     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarPlatillo">
+        Agregar Platillo
+      </button>
+      <!-- Modal para agregar platillo -->
+    <div class="modal fade" id="modalAgregarPlatillo" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" th:action="@{/admin/productos/agregar}" method="POST" enctype="multipart/form-data"   >
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Agregar Platillo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label"   >Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del Platillo">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" id="precio" name="precio" placeholder="Precio del Platillo" step="0.01">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Categoría</label>
+              <select class="form-select" id="categoria" name="categoria">
+                <option selected>-- Seleccione --</option>
+                <option value="1">Bebida</option>
+                <option value="2">Ensalada</option>
+                <option value="3">Postre</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Imagen</label>
+              <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Descripción del Platillo"></textarea>
+            </div>
+            <!-- stock -->
+             <div class="mb-3">
+              <label  class="form-label">Stock</label>
+              <input type="number" class="form-control" id="stock" name="stock" placeholder="Cantidad en Stock" min="0">
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Agregar Platillo</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+  
+</body>
+</html>

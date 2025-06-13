@@ -3,6 +3,12 @@ package com.meserodigital.domain.model;
 public class Categoria {
     private Long id;
     private String nombre;
+    public Categoria() {
+    }
+    public Categoria(Long id, String nombre) {
+      this.id = id;
+      this.nombre = nombre;
+    }
     public Long getId() {
       return id;
     }

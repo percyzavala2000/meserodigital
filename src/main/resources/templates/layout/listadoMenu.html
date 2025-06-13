@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/spring-security6">
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Listado Clientes</title>
+</head>
+
+<body>
+  <section th:fragment="listadoMenu">
+
+    <!-- Validamos que la lista productos no sea vacía -->
+    <div th:if="${productos != null and !productos.isEmpty()}">
+
+      <!-- Iteramos por cada producto -->
+      <div class="platillo card mb-4 d-flex flex-row shadow-sm" th:each="producto : ${productos}">
+
+        <!-- Imagen protegida -->
+        <img th:if="${producto.imagen != null}" th:src="@{/uploads/{nombre}(nombre=${producto.imagen})}"
+          alt="Imagen Producto" class="img-fluid" style="width: 200px;" />
+
+        <!-- Info del producto -->
+        <div class="info p-3">
+          <h2 class="h5 text-warning" th:text="${producto.nombre != null ? producto.nombre : 'Producto sin nombre'}">
+            Nombre producto</h2>
+
+          <p>
+            <strong>Categoría:</strong>
+            <span class="badge bg-success"
+              th:text="${producto.categoria != null ? producto.categoria.nombre : 'SIN CATEGORÍA'}">CATEGORÍA</span>
+          </p>
+
+          <p th:text="${producto.descripcion != null ? producto.descripcion : 'Sin descripción disponible'}">Descripción
+          </p>
+
+          <p>
+            <strong>Precio:</strong> S/.
+            <span th:text="${producto.precio != null ? producto.precio : '0.00'}">0.00</span>
+          </p>
+          <form th:action="@{/admin/productos/cambiarEstado}" method="post">
+           <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+            <input type="hidden" name="id" th:value="${producto.id}" />
+            <input type="hidden" name="estado"
+              th:value="${producto.estado == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
+            <button type="submit" class="btn btn-sm"
+              th:classappend="${producto.estado == 'DISPONIBLE'} ? 'btn-outline-danger' : 'btn-outline-success'">
+              <span th:text="${producto.estado == 'DISPONIBLE' ? 'Desactivar' : 'Activar'}">Cambiar</span>
+            </button>
+            <p><strong>Estado actual:</strong>
+              <span th:text="${producto.estado}">DISPONIBLE</span>
+            </p>
+          </form>
+
+          <!-- <form th:action="@{/admin/productos/cambiarEstado}" method="post">
+            <input type="hidden" name="id" th:value="${producto.id}" />
+            <input type="hidden" name="estado"
+              th:value="${producto.estado == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
+            <button type="submit" class="btn btn-sm"
+              th:classappend="${producto.estado == 'DISPONIBLE'} ? 'btn-outline-danger' : 'btn-outline-success'">
+              <span th:text="${producto.estado == 'DISPONIBLE' ? 'Desactivar' : 'Activar'}">Cambiar</span>
+            </button>
+          </form> -->
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Si la lista de productos está vacía, mostramos mensaje -->
+    <div th:if="${productos == null or productos.isEmpty()}">
+      <p>No hay productos para mostrar.</p>
+    </div>
+
+  </section>
+</body>
+
+</html>

@@ -23,4 +23,14 @@ public class CategoriaServiceImpl implements CategoriaService {
     public List<Categoria> listarCategorias() {
         return categoriaRepository.findAll();
     }
+    @Override
+    public String getNombreCategoria(Long idCategoria) {
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElse(null);
+        return categoria != null ? categoria.getNombre() : "SIN CATEGORÍA";
+    }
+
+    @Override
+public Categoria getCategoriaById(Long idCategoria) {
+    return categoriaRepository.findById(idCategoria).orElse(null);
+}
 }
