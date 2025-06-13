@@ -57,6 +57,6 @@ public class Pedido {
       this.detalles = detalles;
     }
 
-    // Getters y setters
+    
 }
 

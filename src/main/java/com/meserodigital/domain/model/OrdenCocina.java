@@ -63,5 +63,4 @@ public class OrdenCocina {
       this.estado = estado;
     }
 
-    // Getters y setters
 }
