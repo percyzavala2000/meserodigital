@@ -100,6 +100,8 @@ producto.setCategoria(cat);
         return "redirect:/admin/productos";
     }
 
+   
+
     // (Opcional) Método para editar un producto
    /*  @GetMapping("/editar/{id}")
     public String mostrarFormularioEditarProducto(@PathVariable Long id, Model model) {
@@ -116,4 +118,14 @@ producto.setCategoria(cat);
         productoService.eliminarProducto(id);
         return "redirect:/admin/productos";
     } */
+
+       @GetMapping("/pedidos")
+    public String verPedidos() {
+        return "pedidos";  // Renderiza pedidos.html
+    }
+
+    @GetMapping("/usuarios")
+    public String verUsuarios() {
+        return "usuarios";  // Renderiza usuarios.html
+    }
 }
