@@ -85,6 +85,11 @@ public String verProductos(Model model) {
         }
 
         productoService.agregarProducto(producto);
+        Categoria cat = categoriaService.getCategoriaById(categoria);
+System.out.println("Categoria obtenida: " + cat);
+producto.setCategoria(cat);
+
+        
         return "redirect:/admin/productos";
     }
 

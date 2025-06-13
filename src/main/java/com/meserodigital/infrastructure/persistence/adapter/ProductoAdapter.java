@@ -72,6 +72,12 @@ public class ProductoAdapter implements ProductoRepository {
         entity.setImagen(p.getImagen());
         entity.setEstado(ProductoEntity.Estado.valueOf(p.getEstado().name()));
         // La categoría se setea aparte si corresponde
+         if (p.getCategoria() != null) {
+        // Asigna la categoría al entity
+        com.meserodigital.infrastructure.persistence.entity.CategoriaEntity catEntity = new com.meserodigital.infrastructure.persistence.entity.CategoriaEntity();
+        catEntity.setId(p.getCategoria().getId());
+        entity.setCategoria(catEntity);
+    }
         return entity;
     }
 
