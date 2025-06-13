@@ -26,8 +26,8 @@ public class ProductoEntity {
 
   private String imagen;
 
-  @Enumerated(EnumType.STRING)
-  private Estado estado;
+ @Enumerated(EnumType.STRING)
+private Estado estado;
 
   @ManyToOne
   @JoinColumn(name = "id_categoria")

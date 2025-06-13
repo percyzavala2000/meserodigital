@@ -5,6 +5,7 @@ import com.meserodigital.domain.repository.ProductoRepository;
 import com.meserodigital.domain.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,10 +26,14 @@ public class ProductoServiceImpl implements ProductoService {
     }
     
 
-    @Override
-    public void cambiarEstado(Long id, Producto.Estado estado) {
-        Producto producto = productoRepository.findById(id).orElseThrow();
-        producto.setEstado(estado);
-        productoRepository.save(producto);
-    }
+   @Override
+@Transactional
+public void cambiarEstado(Long id, Producto.Estado estado) {
+    productoRepository.findById(id).ifPresentOrElse(producto -> {
+        producto.setEstado(estado);  // Cambia el estado en el modelo
+        productoRepository.save(producto);  // Guarda el cambio en la base de datos
+    }, () -> {
+        throw new RuntimeException("Producto no encontrado con ID: " + id);
+    });
+}
 }

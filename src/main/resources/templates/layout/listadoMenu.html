@@ -39,18 +39,15 @@
             <strong>Precio:</strong> S/.
             <span th:text="${producto.precio != null ? producto.precio : '0.00'}">0.00</span>
           </p>
-          <form th:action="@{/admin/productos/cambiarEstado}" method="post">
-           <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
-            <input type="hidden" name="id" th:value="${producto.id}" />
-            <input type="hidden" name="estado"
-              th:value="${producto.estado == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
-            <button type="submit" class="btn btn-sm"
-              th:classappend="${producto.estado == 'DISPONIBLE'} ? 'btn-outline-danger' : 'btn-outline-success'">
-              <span th:text="${producto.estado == 'DISPONIBLE' ? 'Desactivar' : 'Activar'}">Cambiar</span>
-            </button>
+           <form th:action="@{/admin/productos/cambiarEstado}" method="post">
+    <input type="hidden" name="id" th:value="${producto.id}" />
+    <input type="hidden" name="estado" th:value="${producto.estado.name() == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
+    <button type="submit" th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Deshabilitar' : 'Habilitar'}" class="btn btn-warning"></button>
+
             <p><strong>Estado actual:</strong>
-              <span th:text="${producto.estado}">DISPONIBLE</span>
+              <span th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Habilitado' : 'Deshabilitado'}">Estado</td>>DISPONIBLE</span>
             </p>
+          
           </form>
 
           <!-- <form th:action="@{/admin/productos/cambiarEstado}" method="post">
