@@ -7,14 +7,22 @@ import java.math.BigDecimal;
 @Table(name = "producto")
 public class ProductoEntity {
 
+    public enum Estado {
+        DISPONIBLE, NO_DISPONIBLE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
+
     private String descripcion;
+
     private BigDecimal precio;
+
     private int stock;
+
     private String imagen;
 
     @Enumerated(EnumType.STRING)
@@ -23,10 +31,6 @@ public class ProductoEntity {
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private CategoriaEntity categoria;
-
-    public enum Estado {
-        DISPONIBLE, NO_DISPONIBLE
-    }
 
     public Long getId() {
       return id;
@@ -93,5 +97,4 @@ public class ProductoEntity {
     }
 
     // Getters y setters
-    
 }
