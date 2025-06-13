@@ -53,6 +53,12 @@ public class ProductoAdapter implements ProductoRepository {
         p.setImagen(entity.getImagen());
         p.setEstado(Producto.Estado.valueOf(entity.getEstado().name()));
         // Aquí podrías mapear la categoría si la necesitas
+        if (entity.getCategoria() != null) {
+        com.meserodigital.domain.model.Categoria categoria = new com.meserodigital.domain.model.Categoria();
+        categoria.setId(entity.getCategoria().getId());
+        categoria.setNombre(entity.getCategoria().getNombre());
+        p.setCategoria(categoria);
+    }
         return p;
     }
 
@@ -68,4 +74,12 @@ public class ProductoAdapter implements ProductoRepository {
         // La categoría se setea aparte si corresponde
         return entity;
     }
+
+    @Override
+public List<Producto> findAllWithCategoria() {
+    return jpaRepository.findAllWithCategoria()
+            .stream()
+            .map(this::mapToDomain)
+            .collect(Collectors.toList());
+}
 }

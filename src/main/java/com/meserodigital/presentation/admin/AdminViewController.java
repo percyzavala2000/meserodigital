@@ -40,11 +40,7 @@ public String verProductos(Model model) {
                            .getCategoria()  );
     }
     for (Producto producto : productos) {
-        if (producto.getCategoria() != null) {
-            String nombreCategoria = categoriaService.getNombreCategoria(producto.getCategoria().getId());
-            producto.getCategoria().setNombre(nombreCategoria); 
-        } else {
-            // Puedes asignar un valor por defecto si el producto no tiene categoría
+        if (producto.getCategoria() == null) {
             producto.setCategoria(new Categoria());
             producto.getCategoria().setNombre("Sin categoría");
         }

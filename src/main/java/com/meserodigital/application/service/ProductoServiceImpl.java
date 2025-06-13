@@ -21,8 +21,9 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<Producto> listarProductos() {
-        return productoRepository.findAll();
+        return productoRepository.findAllWithCategoria();
     }
+    
 
     @Override
     public void cambiarEstado(Long id, Producto.Estado estado) {
