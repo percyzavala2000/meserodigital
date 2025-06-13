@@ -77,7 +77,7 @@ CREATE DATABASE mesero_digital;
 mvn spring-boot:run
 ```
 ## 4️⃣ Accede a la aplicación:
-- **Panel de administración**: [http://localhost:8080/admin](http://localhost:8080/admin/productos)
-- **API REST**: [http://localhost:8080/api](http://localhost:8080/api/productos)
+- **Panel de administración**: [http://localhost:8080/admin/productos](http://localhost:8080/admin/productos)
+- **API REST**: [http://localhost:8080/api/productos](http://localhost:8080/api/productos)
 - **Documentación Swagger**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
