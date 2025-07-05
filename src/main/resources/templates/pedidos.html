@@ -32,7 +32,7 @@
         <h1 class="mb-4">Pedidos</h1>
 
         <div class="row" th:each="pedido : ${pedidos}">
-          <div th:if="${pedido.estado != 'LISTO'}" class="col-md-6 mb-4">
+          <div  th:if="${pedido.estado.name() != 'LISTO'}" class="col-md-6 mb-4">
             <div class="card shadow" th:classappend="${pedido.estado == 'LISTO'} ? ' border-success'">
               <div class="card-body">
                 <h5 class="card-title"
