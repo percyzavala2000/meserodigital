@@ -2,6 +2,7 @@ package com.meserodigital.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "orden_cocina")
@@ -13,13 +14,14 @@ public class OrdenCocinaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_orden_cocina")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_pedido")
     private PedidoEntity pedido;
 
-    private String tiempoEstimado;
+    private LocalTime tiempoEstimado;
 
     private LocalDateTime horaInicio;
 
@@ -44,11 +46,11 @@ public class OrdenCocinaEntity {
       this.pedido = pedido;
     }
 
-    public String getTiempoEstimado() {
+    public LocalTime getTiempoEstimado() {
       return tiempoEstimado;
     }
 
-    public void setTiempoEstimado(String tiempoEstimado) {
+    public void setTiempoEstimado(LocalTime tiempoEstimado) {
       this.tiempoEstimado = tiempoEstimado;
     }
 

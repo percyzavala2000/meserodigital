@@ -7,5 +7,7 @@ public interface PedidoService {
     Pedido crearPedido(Pedido pedido);
     List<Pedido> listarPedidos();
     void cambiarEstado(Long id, Pedido.Estado estado);
+    void definirTiempoEntrega(Long idPedido, int minutos);
+    void marcarComoListo(Long idPedido);
 
 }

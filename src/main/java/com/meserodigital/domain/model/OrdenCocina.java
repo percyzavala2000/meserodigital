@@ -1,11 +1,12 @@
 package com.meserodigital.domain.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class OrdenCocina {
     private Long id;
     private Pedido pedido;
-    private String tiempoEstimado;  // Formato HH:mm:ss
+    private LocalTime tiempoEstimado; // Formato HH:mm:ss
     private LocalDateTime horaInicio;
     private LocalDateTime horaEntrega;
     private Estado estado;
@@ -14,7 +15,7 @@ public class OrdenCocina {
 
     public OrdenCocina() {
     }
-   public OrdenCocina(Long id, Long idPedido, String tiempoEstimado, 
+   public OrdenCocina(Long id, Long idPedido, LocalTime tiempoEstimado, 
                    LocalDateTime horaInicio, LocalDateTime horaEntrega, Estado estado) {
     this.id = id;
     this.idPedido = idPedido;
@@ -43,10 +44,10 @@ public class OrdenCocina {
     public void setPedido(Pedido pedido) {
       this.pedido = pedido;
     }
-    public String getTiempoEstimado() {
+    public LocalTime getTiempoEstimado() {
       return tiempoEstimado;
     }
-    public void setTiempoEstimado(String tiempoEstimado) {
+    public void setTiempoEstimado(LocalTime tiempoEstimado) {
       this.tiempoEstimado = tiempoEstimado;
     }
     public LocalDateTime getHoraInicio() {

@@ -1,11 +1,12 @@
 package com.meserodigital.application.dto;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class OrdenCocinaDTO {
     private Long id;
     private Long idPedido;
-    private String tiempoEstimado;
+    private LocalTime tiempoEstimado;
     private LocalDateTime horaInicio;
     private LocalDateTime horaEntrega;
     private String estado;
@@ -21,10 +22,10 @@ public class OrdenCocinaDTO {
     public void setIdPedido(Long idPedido) {
       this.idPedido = idPedido;
     }
-    public String getTiempoEstimado() {
+    public LocalTime getTiempoEstimado() {
       return tiempoEstimado;
     }
-    public void setTiempoEstimado(String tiempoEstimado) {
+    public void setTiempoEstimado(LocalTime tiempoEstimado) {
       this.tiempoEstimado = tiempoEstimado;
     }
     public LocalDateTime getHoraInicio() {

@@ -3,7 +3,9 @@ package com.meserodigital.infrastructure.persistence.adapter;
 import com.meserodigital.domain.model.OrdenCocina;
 import com.meserodigital.domain.repository.OrdenCocinaRepository;
 import com.meserodigital.infrastructure.persistence.entity.OrdenCocinaEntity;
+import com.meserodigital.infrastructure.persistence.entity.PedidoEntity;
 import com.meserodigital.infrastructure.persistence.repository.OrdenCocinaJpaRepository;
+import com.meserodigital.infrastructure.persistence.repository.PedidoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,9 @@ public class OrdenCocinaAdapter implements OrdenCocinaRepository {
     @Autowired
     private OrdenCocinaJpaRepository jpaRepository;
 
+    @Autowired
+    private PedidoJpaRepository pedidoJpaRepository; // 🔧 NUEVO
+
     @Override
     public OrdenCocina save(OrdenCocina orden) {
         OrdenCocinaEntity entity = new OrdenCocinaEntity();
@@ -25,7 +30,11 @@ public class OrdenCocinaAdapter implements OrdenCocinaRepository {
         entity.setHoraInicio(orden.getHoraInicio());
         entity.setHoraEntrega(orden.getHoraEntrega());
         entity.setEstado(OrdenCocinaEntity.Estado.valueOf(orden.getEstado().name()));
-        // Aquí deberías setear el pedido si es necesario (cargar el PedidoEntity)
+
+        // 🔴 ASOCIAR correctamente el pedido
+        if (orden.getIdPedido() != null) {
+           pedidoJpaRepository.findById(orden.getIdPedido()).ifPresent(entity::setPedido);
+        } 
         entity = jpaRepository.save(entity);
         return mapToDomain(entity);
     }

@@ -9,6 +9,8 @@ public class DetallePedidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_detalle")
+
     private Long id;
 
     @ManyToOne
