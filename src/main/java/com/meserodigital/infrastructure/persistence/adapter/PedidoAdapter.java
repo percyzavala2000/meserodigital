@@ -6,18 +6,30 @@ import com.meserodigital.domain.model.OrdenCocina;
 import com.meserodigital.domain.model.Pedido;
 import com.meserodigital.domain.model.Producto;
 import com.meserodigital.domain.repository.PedidoRepository;
+import com.meserodigital.infrastructure.persistence.entity.ClienteEntity;
+import com.meserodigital.infrastructure.persistence.entity.DetallePedidoEntity;
 import com.meserodigital.infrastructure.persistence.entity.PedidoEntity;
+import com.meserodigital.infrastructure.persistence.entity.ProductoEntity;
+import com.meserodigital.infrastructure.persistence.repository.ClienteJpaRepository;
 import com.meserodigital.infrastructure.persistence.repository.OrdenCocinaJpaRepository;
 import com.meserodigital.infrastructure.persistence.repository.PedidoJpaRepository;
+import com.meserodigital.infrastructure.persistence.repository.ProductoJpaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class PedidoAdapter implements PedidoRepository {
+  @Autowired
+  private ClienteJpaRepository clienteJpaRepository;
+
+  @Autowired
+  private ProductoJpaRepository productoJpaRepository;
 
   @Autowired
   private PedidoJpaRepository jpaRepository;
@@ -25,20 +37,72 @@ public class PedidoAdapter implements PedidoRepository {
   @Autowired
   private OrdenCocinaJpaRepository ordenCocinaJpaRepository;
 
-  @Override
+@Override
 public Pedido save(Pedido pedido) {
-    PedidoEntity entity;
+    PedidoEntity entity = new PedidoEntity();
 
     if (pedido.getId() != null) {
         entity = jpaRepository.findById(pedido.getId()).orElse(new PedidoEntity());
+    }
+
+    entity.setFecha(pedido.getFecha());
+    entity.setEstado(PedidoEntity.Estado.valueOf(pedido.getEstado().name()));
+
+    // Asignar cliente si viene con ID
+    if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
+        ClienteEntity clienteEntity = new ClienteEntity();
+        clienteEntity.setId(pedido.getCliente().getId());
+        entity.setCliente(clienteEntity);
+    }
+
+    // Guardar primero el pedido base para tener el ID
+    PedidoEntity savedEntity = jpaRepository.save(entity);
+
+    // Ahora agregar los detalles
+    if (pedido.getDetalles() != null && !pedido.getDetalles().isEmpty()) {
+        List<DetallePedidoEntity> detalles = new ArrayList<>();
+
+        for (DetallePedido detalle : pedido.getDetalles()) {
+            DetallePedidoEntity dEntity = new DetallePedidoEntity();
+            dEntity.setCantidad(detalle.getCantidad());
+            dEntity.setPrecioUnitario(detalle.getPrecioUnitario());
+
+            // Asociar producto si tiene ID
+            if (detalle.getProducto() != null && detalle.getProducto().getId() != null) {
+                ProductoEntity productoEntity = new ProductoEntity();
+                productoEntity.setId(detalle.getProducto().getId());
+                dEntity.setProducto(productoEntity);
+            }
+
+            dEntity.setPedido(savedEntity); // Asociar el detalle al pedido
+            detalles.add(dEntity);
+        }
+
+        savedEntity.setDetalles(detalles);
+        savedEntity = jpaRepository.save(savedEntity); // volver a guardar
+    }
+
+    // Devolver dominio
+    Pedido saved = new Pedido();
+    saved.setId(savedEntity.getId());
+    saved.setFecha(savedEntity.getFecha());
+    saved.setEstado(Pedido.Estado.valueOf(savedEntity.getEstado().name()));
+    return saved;
+}
+ /*  public Pedido save(Pedido pedido) {
+    PedidoEntity entity;
+
+    if (pedido.getId() != null) {
+      entity = jpaRepository.findById(pedido.getId()).orElse(new PedidoEntity());
     } else {
-        entity = new PedidoEntity();
+      entity = new PedidoEntity();
     }
 
     entity.setId(pedido.getId()); // puede ser null
     entity.setFecha(pedido.getFecha());
     entity.setEstado(PedidoEntity.Estado.valueOf(pedido.getEstado().name()));
-    // NO tocamos cliente ni detalles aquí para evitar sobreescribir cosas no seteadas
+    // NO tocamos cliente ni detalles aquí para evitar sobreescribir cosas no
+    // seteadas
 
     entity = jpaRepository.save(entity);
 
@@ -47,7 +111,7 @@ public Pedido save(Pedido pedido) {
     saved.setFecha(entity.getFecha());
     saved.setEstado(Pedido.Estado.valueOf(entity.getEstado().name()));
     return saved;
-}
+  } */
 
   private Pedido mapToDomain(PedidoEntity e) {
     Pedido pedido = new Pedido();
@@ -103,20 +167,22 @@ public Pedido save(Pedido pedido) {
     return pedido;
   }
 
- /*  @Override
+  /*
+   * @Override
+   * public List<Pedido> findAll() {
+   * return jpaRepository.findAll()
+   * .stream()
+   * .map(this::mapToDomain)
+   * .collect(Collectors.toList());
+   * }
+   */
+  @Override
   public List<Pedido> findAll() {
-    return jpaRepository.findAll()
-        .stream()
-        .map(this::mapToDomain)
-        .collect(Collectors.toList());
-  } */
- @Override
-public List<Pedido> findAll() {
     List<PedidoEntity> entidades = Optional.ofNullable(jpaRepository.findAll()).orElse(List.of());
     return entidades.stream()
         .map(this::mapToDomain)
         .collect(Collectors.toList());
-}
+  }
 
   @Override
   public Optional<Pedido> findById(Long id) {

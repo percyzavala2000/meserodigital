@@ -25,16 +25,38 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido crearPedido(Pedido pedido) {
-        Pedido guardado = pedidoRepository.save(pedido);
+           // 1. Verifica que haya cliente y detalles
+    if (pedido.getCliente() == null || pedido.getDetalles() == null || pedido.getDetalles().isEmpty()) {
+        throw new IllegalArgumentException("El pedido debe tener cliente y al menos un detalle.");
+    }
 
-        // Crear entrada en orden cocina
-        OrdenCocina orden = new OrdenCocina();
-        orden.setIdPedido(guardado.getId());
-        orden.setHoraInicio(LocalDateTime.now());
-        orden.setEstado(OrdenCocina.Estado.PREPARANDO);
-        ordenCocinaRepository.save(orden);
+    // 2. Asigna fecha y estado si no vienen
+    if (pedido.getFecha() == null) {
+        pedido.setFecha(LocalDateTime.now());
+    }
+    if (pedido.getEstado() == null) {
+        pedido.setEstado(Pedido.Estado.PENDIENTE);
+    }
 
-        return guardado;
+    // 3. Guarda el pedido sin detalles (aún no tienen ID de pedido)
+    Pedido guardado = pedidoRepository.save(pedido);
+
+    // 4. Asigna el pedido guardado a cada detalle
+    pedido.getDetalles().forEach(detalle -> {
+        detalle.setPedido(guardado); // 👈 Esto es clave: ID de pedido
+    });
+
+    // 5. Guarda nuevamente los detalles si es necesario (esto depende si tu adapter lo maneja)
+    // Si tu repository los guarda en cascada, se omite este paso.
+
+    // 6. Crear entrada en orden cocina
+    OrdenCocina orden = new OrdenCocina();
+    orden.setIdPedido(guardado.getId());
+    orden.setHoraInicio(LocalDateTime.now());
+    orden.setEstado(OrdenCocina.Estado.PREPARANDO);
+    ordenCocinaRepository.save(orden);
+
+    return guardado;
     }
 
     @Override

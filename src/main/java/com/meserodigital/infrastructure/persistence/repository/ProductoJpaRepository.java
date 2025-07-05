@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductoJpaRepository extends JpaRepository<ProductoEntity, Long> {
+  
 
   List<ProductoEntity> findByEstado(ProductoEntity.Estado estado);
 
