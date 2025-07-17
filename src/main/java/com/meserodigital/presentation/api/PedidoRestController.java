@@ -33,7 +33,10 @@ public class PedidoRestController {
     // Retorna la lista de productos disponibles
     // Esto es útil para que el cliente pueda seleccionar productos al crear un
     // pedido
-    return productoService.listarProductos();
+    //return productoService.listarProductos();
+    return productoService.listarProductos().stream()
+        .filter(p -> p.getEstado() == Producto.Estado.DISPONIBLE)
+        .collect(Collectors.toList());
   }
 
   @PostMapping
