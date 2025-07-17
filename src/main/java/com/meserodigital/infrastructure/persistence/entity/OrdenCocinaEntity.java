@@ -9,7 +9,7 @@ import java.time.LocalTime;
 public class OrdenCocinaEntity {
 
     public enum Estado {
-        PREPARANDO, LISTO
+        PENDIENTE,PREPARANDO, LISTO
     }
 
     @Id

@@ -27,6 +27,7 @@ public class OrdenCocina {
 
 
     public enum Estado {
+        PENDIENTE,
         PREPARANDO,
         LISTO
     }

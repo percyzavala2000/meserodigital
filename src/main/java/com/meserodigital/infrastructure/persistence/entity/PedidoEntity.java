@@ -9,7 +9,7 @@ import java.util.List;
 public class PedidoEntity {
 
     public enum Estado {
-        PENDIENTE, EN_PREPARACION, LISTO, RECOGIDO
+        PENDIENTE, PREPARANDO, LISTO, RECOGIDO
     }
 
     @Id
