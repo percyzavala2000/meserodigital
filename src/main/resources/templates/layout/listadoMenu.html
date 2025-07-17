@@ -19,8 +19,8 @@
 
         <!-- Imagen protegida -->
         <img th:if="${producto.imagen != null}" th:src="@{/uploads/{nombre}(nombre=${producto.imagen})}"
-          alt="Imagen Producto" class="img-fluid mx-auto d-block" 
-     style="max-width: 200px; height: auto; object-fit: cover;"/>
+          alt="Imagen Producto" class="img-fluid mx-auto d-block"
+          style="max-width: 200px; height: auto; object-fit: cover;" />
 
         <!-- Info del producto -->
         <div class="info p-3">
@@ -40,15 +40,20 @@
             <strong>Precio:</strong> S/.
             <span th:text="${producto.precio != null ? producto.precio : '0.00'}">0.00</span>
           </p>
-           <form th:action="@{/admin/productos/cambiarEstado}" method="post">
-    <input type="hidden" name="id" th:value="${producto.id}" />
-    <input type="hidden" name="estado" th:value="${producto.estado.name() == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
-    <button type="submit" th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Deshabilitar' : 'Habilitar'}" class="btn btn-warning"></button>
+          <form th:action="@{/admin/productos/cambiarEstado}" method="post">
+            <input type="hidden" name="id" th:value="${producto.id}" />
+            <input type="hidden" name="estado"
+              th:value="${producto.estado.name() == 'DISPONIBLE' ? 'NO_DISPONIBLE' : 'DISPONIBLE'}" />
+            
+
+            <button type="submit" th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Deshabilitar' : 'Habilitar'}"
+              class="btn btn-warning"></button>
 
             <p><strong>Estado actual:</strong>
-              <span th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Habilitado' : 'Deshabilitado'}">Estado</td>>DISPONIBLE</span>
+              <span th:text="${producto.estado.name() == 'DISPONIBLE' ? 'Habilitado' : 'Deshabilitado'}">Estado</td>
+                >DISPONIBLE</span>
             </p>
-          
+
           </form>
 
           <!-- <form th:action="@{/admin/productos/cambiarEstado}" method="post">

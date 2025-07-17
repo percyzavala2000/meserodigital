@@ -7,4 +7,5 @@ public interface ProductoService {
     Producto agregarProducto(Producto producto);
     List<Producto> listarProductos();
     void cambiarEstado(Long id, Producto.Estado estado);
+    Producto buscarPorId(Long id);
 }

@@ -3,6 +3,8 @@ package com.meserodigital.application.service;
 import com.meserodigital.domain.model.Producto;
 import com.meserodigital.domain.repository.ProductoRepository;
 import com.meserodigital.domain.service.ProductoService;
+import com.meserodigital.websocket.WebSocketService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,25 +17,36 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private WebSocketService webSocketService;
+
     @Override
     public Producto agregarProducto(Producto producto) {
-        return productoRepository.save(producto);
+        Producto guardado = productoRepository.save(producto);
+        webSocketService.enviarMensaje("/topic/productos", guardado);
+        return guardado;
     }
 
     @Override
     public List<Producto> listarProductos() {
         return productoRepository.findAllWithCategoria();
     }
-    
 
-   @Override
-@Transactional
-public void cambiarEstado(Long id, Producto.Estado estado) {
-    productoRepository.findById(id).ifPresentOrElse(producto -> {
-        producto.setEstado(estado);  // Cambia el estado en el modelo
-        productoRepository.save(producto);  // Guarda el cambio en la base de datos
-    }, () -> {
-        throw new RuntimeException("Producto no encontrado con ID: " + id);
-    });
-}
+    @Override
+    @Transactional
+    public void cambiarEstado(Long id, Producto.Estado estado) {
+        productoRepository.findById(id).ifPresentOrElse(producto -> {
+            producto.setEstado(estado);
+            Producto actualizado = productoRepository.save(producto);
+            webSocketService.enviarMensaje("/topic/productos", actualizado);
+        }, () -> {
+            throw new RuntimeException("Producto no encontrado con ID: " + id);
+        });
+    }
+
+    @Override
+    public Producto buscarPorId(Long id) {
+        return productoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+    }
 }

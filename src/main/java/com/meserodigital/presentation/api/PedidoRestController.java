@@ -33,7 +33,7 @@ public class PedidoRestController {
     // Retorna la lista de productos disponibles
     // Esto es útil para que el cliente pueda seleccionar productos al crear un
     // pedido
-    //return productoService.listarProductos();
+    // return productoService.listarProductos();
     return productoService.listarProductos().stream()
         .filter(p -> p.getEstado() == Producto.Estado.DISPONIBLE)
         .collect(Collectors.toList());
@@ -66,15 +66,15 @@ public class PedidoRestController {
     return pedidoService.crearPedido(pedido);
   }
 
- @Autowired
-private OrdenCocinaRepository ordenCocinaRepository;
+  @Autowired
+  private OrdenCocinaRepository ordenCocinaRepository;
 
-@GetMapping("/{id}")
-public ResponseEntity<PedidoProgresoDTO> obtenerPedidoPorId(@PathVariable Long id) {
+  @GetMapping("/{id}")
+  public ResponseEntity<PedidoProgresoDTO> obtenerPedidoPorId(@PathVariable Long id) {
     Pedido pedido = pedidoService.buscarPorId(id);
 
     if (pedido == null) {
-        return ResponseEntity.notFound().build();
+      return ResponseEntity.notFound().build();
     }
 
     PedidoProgresoDTO dto = new PedidoProgresoDTO();
@@ -85,14 +85,14 @@ public ResponseEntity<PedidoProgresoDTO> obtenerPedidoPorId(@PathVariable Long i
     var ordenOptional = ordenCocinaRepository.findByPedidoId(id).stream().findFirst();
 
     if (ordenOptional.isPresent() && ordenOptional.get().getTiempoEstimado() != null) {
-        int minutos = ordenOptional.get().getTiempoEstimado().getHour() * 60 +
-                      ordenOptional.get().getTiempoEstimado().getMinute();
-        dto.setTiempoEntrega(minutos);
+      int minutos = ordenOptional.get().getTiempoEstimado().getHour() * 60 +
+          ordenOptional.get().getTiempoEstimado().getMinute();
+      dto.setTiempoEntrega(minutos);
     } else {
-        dto.setTiempoEntrega(0);
+      dto.setTiempoEntrega(0);
     }
 
     return ResponseEntity.ok(dto);
-}
+  }
 
 }

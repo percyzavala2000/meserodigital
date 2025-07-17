@@ -93,12 +93,19 @@ producto.setCategoria(cat);
         return "redirect:/admin/productos";
     }
 
-    @PostMapping("/cambiarEstado")
-    @Transactional
-    public String cambiarEstadoProducto(@RequestParam Long id, @RequestParam String estado) {
-        productoService.cambiarEstado(id, Producto.Estado.valueOf(estado));
-        return "redirect:/admin/productos";
-    }
+    @Autowired
+private ProductoWebSocketController productoWebSocketController;
+
+@PostMapping("/cambiarEstado")
+@Transactional
+public String cambiarEstadoProducto(@RequestParam Long id, @RequestParam String estado) {
+    productoService.cambiarEstado(id, Producto.Estado.valueOf(estado));
+
+    Producto productoActualizado = productoService.buscarPorId(id);
+    productoWebSocketController.notificarCambioProducto(productoActualizado);
+
+    return "redirect:/admin/productos";
+}
 
    
 
