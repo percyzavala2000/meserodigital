@@ -12,29 +12,49 @@
   <script th:src="@{/webjars/popper.js/2.11.7/umd/popper.min.js}"></script>
   <script th:src="@{/webjars/bootstrap/5.3.5/js/bootstrap.bundle.min.js}"></script>
 </head>
+
 <body>
 
-   <!-- Sidebar -->
-  <aside class="sidebar bg-primary text-white p-4 " >
-  <h2>MESERO DIGITAL</h2>
-  <p>Administra tu restaurant en las siguientes opciones:</p>
-  <nav>
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a th:href="@{/admin/pedidos}" class="nav-link text-white">Pedidos</a>
+  <!-- Sidebar -->
+  <aside class="sidebar bg-primary text-white p-4 ">
+    <ul sec:authorize="isAuthenticated()" class="navbar-nav m-lg-auto d-flex flex-row">
+      <li class="nav-item me-3">
+        <a href="#" class="nav-link">
+          <i class="fas fa-user"></i>
+          <span th:text="#{barra.bienvenido}">Bienvenido:</span>
+          <span sec:authentication="name">Usuario que hizo login</span>
+        </a>
       </li>
       <li class="nav-item">
-        <span class="nav-link active text-warning">Menú</span>
-      </li>
-      <li class="nav-item">
-        <a th:href="@{/admin/usuarios}" class="nav-link text-white">Usuarios</a>
+        <form method="POST" th:action="@{/logout}">
+          <a class="nav-link" href="#" onclick="this.parentNode.submit();">
+            <i class="fas fa-sign-out-alt"></i>
+            <span th:text="#{barra.salir}">Cerrar Sesion</span>
+          </a>
+
+        </form>
       </li>
     </ul>
-  </nav>
-</aside>
+    <h2>MESERO DIGITAL</h2>
+    <p>Administra tu restaurant en las siguientes opciones:</p>
+    <nav>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a th:href="@{/admin/pedidos}" class="nav-link text-white">Pedidos</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <span class="nav-link active text-warning">Menú</span>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <a th:href="@{/admin/productos/usuarios}" class="nav-link text-white">Usuarios</a>
+        </li>
+      </ul>
+
+    </nav>
+  </aside>
 
   <!-- Contenido principal -->
-  
+
 
 
 

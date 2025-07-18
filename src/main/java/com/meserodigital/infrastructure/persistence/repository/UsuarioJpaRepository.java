@@ -1,10 +1,11 @@
 package com.meserodigital.infrastructure.persistence.repository;
 
-import com.meserodigital.infrastructure.persistence.entity.UsuarioEntity;
+import com.meserodigital.domain.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
 
-public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long> {
-    Optional<UsuarioEntity> findByNombre(String nombre);
+
+public interface UsuarioJpaRepository extends JpaRepository<Usuario, Long> {
+   Usuario findByUsername(String username); // Método para buscar un usuario por su nombre de usuario
+    
 }

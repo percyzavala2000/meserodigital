@@ -38,7 +38,10 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.findById(id).ifPresentOrElse(producto -> {
             producto.setEstado(estado);
             Producto actualizado = productoRepository.save(producto);
+            System.out.println("Producto actualizado: " + actualizado.getNombre() + " a " + actualizado.getEstado());
+
             webSocketService.enviarMensaje("/topic/productos", actualizado);
+            
         }, () -> {
             throw new RuntimeException("Producto no encontrado con ID: " + id);
         });

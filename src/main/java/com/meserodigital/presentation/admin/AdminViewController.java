@@ -135,4 +135,8 @@ public String cambiarEstadoProducto(@RequestParam Long id, @RequestParam String 
     public String verUsuarios() {
         return "usuarios";  // Renderiza usuarios.html
     }
+    @GetMapping("/login")
+  public String login() {
+      return "login"; // Nombre de la plantilla de Thymeleaf (login.html)
+  }
 }

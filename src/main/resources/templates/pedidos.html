@@ -9,6 +9,24 @@
     <div class="row">
       <!-- Sidebar -->
       <aside class="col-md-3 bg-primary text-white p-4 vh-100 ">
+        <ul sec:authorize="isAuthenticated()" class="navbar-nav m-lg-auto d-flex flex-row">
+      <li class="nav-item me-3">
+        <a href="#" class="nav-link">
+          <i class="fas fa-user"></i>
+          <span th:text="#{barra.bienvenido}">Bienvenido:</span>
+          <span sec:authentication="name">Usuario que hizo login</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <form method="POST" th:action="@{/logout}">
+          <a class="nav-link" href="#" onclick="this.parentNode.submit();">
+            <i class="fas fa-sign-out-alt"></i>
+            <span th:text="#{barra.salir}">Cerrar Sesion</span>
+          </a>
+
+        </form>
+      </li>
+    </ul>
         <h2>MESERO DIGITAL</h2>
         <p>Administra tu restaurante</p>
         <nav>
@@ -16,9 +34,12 @@
             <li class="nav-item">
               <a class="nav-link text-white active" href="#">Pedidos</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
               <a class="nav-link text-white" href="/admin/productos">Menús</a>
             </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <a th:href="@{/admin/productos/usuarios}" class="nav-link text-white">Usuarios</a>
+        </li>
           </ul>
         </nav>
       </aside>
