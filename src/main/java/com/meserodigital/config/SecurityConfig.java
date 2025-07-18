@@ -48,6 +48,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .defaultSuccessUrl("/admin/pedidos") // Redirige a productos después del login
                 .permitAll()
             )
             .logout(logout -> logout
@@ -57,8 +58,7 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             )
-            .exceptionHandling(exception -> exception
-                .accessDeniedPage("/errores/403"))
+            
             .build();
     }
 

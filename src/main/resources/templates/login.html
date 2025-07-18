@@ -2,11 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/spring-security6">
 
 <head th:replace="~{layout/plantilla :: head}"></head>
-  <title>Login</title>
-</head>
 
 <body>
-  <header th:replace="~{layout/plantilla :: header}" />
+<!-- inicia -->
+  <!-- Sidebar -->
+  <aside class="sidebar bg-primary text-white p-4 ">
+   
+    <h2>MESERO DIGITAL</h2>
+    <p>Administra tu restaurant</p>
+    
+  </aside>
+ <!-- finaliza -->
   <section id="actions" class="py-4 mb-4 bg-light">
     <div class="container">
       <div class="row">
@@ -26,11 +32,11 @@
             <div class="card-body">
               <form method="POST" th:action="@{/login}">
                 <div class=" form-group  mb-3">
-                  <label for="username">Username:</label>
+                  <label for="username">Nombre:</label>
                   <input type="text" id="username" name="username" class="form-control" />
                 </div>
                 <div class="form-group  mb-3">
-                  <label for="password">Password:</label>
+                  <label for="password">Contraseña:</label>
                   <input type="password" id="password" name="password" class="form-control" />
                 </div>
                 <input type="submit" value="Login" class="btn btn-primary btn-block form-control " />
