@@ -6,6 +6,8 @@ import com.meserodigital.domain.model.Producto;
 
 import com.meserodigital.domain.service.CategoriaService;
 import com.meserodigital.domain.service.ProductoService;
+import com.meserodigital.websocket.WebSocketService;
+
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,8 +95,8 @@ producto.setCategoria(cat);
         return "redirect:/admin/productos";
     }
 
-    @Autowired
-private ProductoWebSocketController productoWebSocketController;
+  @Autowired
+private WebSocketService webSocketService;
 
 @PostMapping("/cambiarEstado")
 @Transactional
@@ -102,7 +104,7 @@ public String cambiarEstadoProducto(@RequestParam Long id, @RequestParam String 
     productoService.cambiarEstado(id, Producto.Estado.valueOf(estado));
 
     Producto productoActualizado = productoService.buscarPorId(id);
-    productoWebSocketController.notificarCambioProducto(productoActualizado);
+    webSocketService.enviarEstadoProducto(productoActualizado); // Usar el service
 
     return "redirect:/admin/productos";
 }
@@ -135,5 +137,8 @@ public String cambiarEstadoProducto(@RequestParam Long id, @RequestParam String 
     public String verUsuarios() {
         return "usuarios";  // Renderiza usuarios.html
     }
-  
+    @GetMapping("/login")
+  public String login() {
+      return "login"; // Nombre de la plantilla de Thymeleaf (login.html)
+  }
 }

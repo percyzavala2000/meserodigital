@@ -38,7 +38,7 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.findById(id).ifPresentOrElse(producto -> {
             producto.setEstado(estado);
             Producto actualizado = productoRepository.save(producto);
-            System.out.println("Producto actualizado: " + actualizado.getNombre() + " a " + actualizado.getEstado());
+            System.out.println("Producto actualizado. entra aqui chcochera: " + actualizado.getNombre() + " a " + actualizado.getEstado());
 
             webSocketService.enviarMensaje("/topic/productos", actualizado);
             

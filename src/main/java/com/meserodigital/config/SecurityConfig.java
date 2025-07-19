@@ -37,7 +37,7 @@ public class SecurityConfig {
         return http
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ← importante
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**", "/ws/**") // desactiva CSRF para API y WebSocket
+                .ignoringRequestMatchers("/api/**", "/ws/**", "/topic/**") // desactiva CSRF para API y WebSocket
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/webjars/**", "/css/**", "/js/**", "/uploads/**").permitAll()
@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*")); // Cambia "*" por tu IP o dominio si estás en producción
+        config.setAllowedOrigins(List.of("http://192.168.18.9")); // Cambia "*" por tu IP o dominio si estás en producción
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // Solo si usas cookies/sesión en frontend
