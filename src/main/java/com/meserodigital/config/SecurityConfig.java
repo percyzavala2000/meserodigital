@@ -41,10 +41,12 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/webjars/**", "/css/**", "/js/**", "/uploads/**").permitAll()
-                .requestMatchers("/agregar", "/pedidos", "/usuarios").hasRole("ADMIN")
+                .requestMatchers("/test/**").permitAll() // 👈 añade esta línea
                 .requestMatchers("/api/**", "/ws/**").permitAll() // API y WS sin login
+                .requestMatchers("/agregar", "/pedidos", "/usuarios").hasRole("ADMIN")
                 .requestMatchers("/").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
+                
             )
             .formLogin(form -> form
                 .loginPage("/login")
@@ -66,10 +68,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://192.168.18.9")); // Cambia "*" por tu IP o dominio si estás en producción
+        config.setAllowedOrigins(List.of("*")); // Cambia "*" por tu IP o dominio si estás en producción
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // Solo si usas cookies/sesión en frontend
+        config.setAllowCredentials(false); // Solo si usas cookies/sesión en frontend
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
