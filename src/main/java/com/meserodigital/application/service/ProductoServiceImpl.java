@@ -56,12 +56,12 @@ public void cambiarEstado(Long id, Producto.Estado estado) {
         try {
             String json = objectMapper.writeValueAsString(disponibles);
 
-            logger.info("📤 Enviando menú actualizado por WebSocket...");
+            logger.info("Enviando menú actualizado por WebSocket...");
             logger.info("Mensaje JSON: {}", json);
 
             webSocketService.enviarMensaje("/topic/productos", json); // enviar como String JSON
         } catch (Exception e) {
-            logger.error("❌ Error al convertir lista de productos a JSON", e);
+            logger.error(" Error al convertir lista de productos a JSON", e);
         }
 
     }, () -> {

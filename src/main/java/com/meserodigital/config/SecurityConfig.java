@@ -19,62 +19,60 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+  @Autowired
+  private UserDetailsService userDetailsService;
 
-    @Autowired
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Autowired
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ← importante
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**", "/ws/**", "/topic/**") // desactiva CSRF para API y WebSocket
-            )
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/webjars/**", "/css/**", "/js/**", "/uploads/**").permitAll()
-                .requestMatchers("/test/**").permitAll() // 👈 añade esta línea
-                .requestMatchers("/api/**", "/ws/**").permitAll() // API y WS sin login
-                .requestMatchers("/agregar", "/pedidos", "/usuarios").hasRole("ADMIN")
-                .requestMatchers("/").hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated()
-                
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/admin/pedidos") // Redirige a productos después del login
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            )
-            
-            .build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/**", "/ws/**", "/topic/**") // desactiva CSRF para API y WebSocket
+        )
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/webjars/**", "/css/**", "/js/**", "/uploads/**").permitAll()
+            .requestMatchers("/test/**").permitAll() 
+            .requestMatchers("/api/**", "/ws/**").permitAll() 
+            .requestMatchers("/agregar", "/pedidos", "/usuarios").hasRole("ADMIN")
+            .requestMatchers("/").hasAnyRole("USER", "ADMIN")
+            .anyRequest().authenticated()
 
-    // Habilitar CORS correctamente para Spring Security
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*")); // Cambia "*" por tu IP o dominio si estás en producción
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false); // Solo si usas cookies/sesión en frontend
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/admin/pedidos") // Redirige a productos después del login
+            .permitAll())
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login?logout")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll())
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+        .build();
+  }
+
+  // Habilitar CORS correctamente para Spring Security
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(List.of("*")); 
+    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowCredentials(false); 
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+    return source;
+  }
 }
