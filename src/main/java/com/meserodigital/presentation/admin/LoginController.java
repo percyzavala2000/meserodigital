@@ -8,7 +8,7 @@ public class LoginController {
   @GetMapping("/login")
 public String login(Authentication authentication) {
     if (authentication != null && authentication.isAuthenticated()) {
-        return "redirect:/admin/pedidos"; // Esto puede causar bucle si "/" requiere login
+        return "redirect:/admin/pedidos"; 
     }
     return "login";
 }

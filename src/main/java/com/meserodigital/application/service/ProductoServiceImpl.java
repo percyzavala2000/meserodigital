@@ -27,6 +27,7 @@ public class ProductoServiceImpl implements ProductoService {
   @Autowired
   private WebSocketService webSocketService;
   private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImpl.class);
+  
 
   @Override
   public Producto agregarProducto(Producto producto) {
