@@ -24,10 +24,11 @@ public class Usuario implements Serializable {
   private Long id;
 
   @NotEmpty
-  @Column(columnDefinition = "username VARCHAR(255) NOT NULL")
+  @Column(columnDefinition = "username character NOT NULL")
   private String username;
-  @NotEmpty // validacion de no vacio
-  @Column(columnDefinition = "password VARCHAR(255) NOT NULL")
+
+  @NotEmpty
+  @Column(columnDefinition = "password character NOT NULL")
   private String password;
   @OneToMany // relacion uno a muchos
   @JoinColumn(name = "usuario_id") // columna foranea
