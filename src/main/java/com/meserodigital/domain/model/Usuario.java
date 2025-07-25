@@ -3,6 +3,7 @@ package com.meserodigital.domain.model;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,20 +18,19 @@ import lombok.Data;
 @Data // genera los getters y setters
 @Table(name = "usuario") // nombre de la tabla en la base de datos
 public class Usuario implements Serializable {
-  private static final long serialVersionUID = 1L; // version de la clase 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY) // auto incrementable
-    
-    private Long id;
-    @NotEmpty
-    private String username;
-    @NotEmpty // validacion de no vacio
-    private String password;
-    @OneToMany // relacion uno a muchos
-    @JoinColumn(name = "usuario_id") // columna foranea
-    private List<Rol> roles;
+  private static final long serialVersionUID = 1L; // version de la clase
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY) // auto incrementable
+  private Long id;
 
-
-
+  @NotEmpty
+  @Column(columnDefinition = "username VARCHAR(255) NOT NULL")
+  private String username;
+  @NotEmpty // validacion de no vacio
+  @Column(columnDefinition = "password VARCHAR(255) NOT NULL")
+  private String password;
+  @OneToMany // relacion uno a muchos
+  @JoinColumn(name = "usuario_id") // columna foranea
+  private List<Rol> roles;
 
 }
