@@ -35,14 +35,14 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
-        .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf
             .ignoringRequestMatchers("/api/**", "/ws/**", "/topic/**") // desactiva CSRF para API y WebSocket
         )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/webjars/**", "/css/**", "/js/**", "/uploads/**").permitAll()
-            .requestMatchers("/test/**").permitAll() 
-            .requestMatchers("/api/**", "/ws/**").permitAll() 
+            .requestMatchers("/test/**").permitAll()
+            .requestMatchers("/api/**", "/ws/**").permitAll()
             .requestMatchers("/agregar", "/pedidos", "/usuarios").hasRole("ADMIN")
             .requestMatchers("/").hasAnyRole("USER", "ADMIN")
             .anyRequest().authenticated()
@@ -66,10 +66,10 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("*")); 
+    config.setAllowedOrigins(List.of("*"));
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(List.of("*"));
-    config.setAllowCredentials(false); 
+    config.setAllowCredentials(false);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", config);

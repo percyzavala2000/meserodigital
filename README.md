@@ -78,6 +78,13 @@ mvn spring-boot:run
 ```
 ## 4️⃣ Accede a la aplicación:
 - **Panel de administración**: [http://localhost:8080/admin/productos](http://localhost:8080/admin/productos)
-- **API REST**: [http://localhost:8080/api/productos](http://localhost:8080/api/productos)
+- **API REST**: [http://localhost:8080/api/productos](http://localhost:8080/api/pedidos)
 - **Documentación Swagger**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+## 5️⃣ Acceso al panel de administración desplegado solo para el profe:
+- **Panel de administracion desplegado**: [https://divine-nourishment-production-1d1e.up.railway.app](https://divine-nourishment-production-1d1e.up.railway.app)
+## 6️⃣ Acceso al panel de administración:
+-  **Usuario**: admin
+-  **Contraseña**: admin
+
+
 
